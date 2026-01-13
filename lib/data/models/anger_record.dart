@@ -1,32 +1,14 @@
 import 'package:hive/hive.dart';
 
-part 'anger_record.g.dart';
+// 移除这行：part 'anger_record.g.dart';
 
 /// 愤怒记录数据模型
-@HiveType(typeId: 0)
 class AngerRecord extends HiveObject {
-  /// 唯一标识符
-  @HiveField(0)
   late String id;
-  
-  /// 记录时间
-  @HiveField(1)
   late DateTime timestamp;
-  
-  /// 愤怒强度评分 (1-10)
-  @HiveField(2)
   late int intensityScore;
-  
-  /// 触发原因
-  @HiveField(3)
   String? trigger;
-  
-  /// 标签列表
-  @HiveField(4)
   List<String>? tags;
-  
-  /// 备注
-  @HiveField(5)
   String? notes;
   
   AngerRecord({
@@ -38,7 +20,7 @@ class AngerRecord extends HiveObject {
     this.notes,
   });
   
-  /// 转换为JSON
+  // 手动实现序列化
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -50,7 +32,6 @@ class AngerRecord extends HiveObject {
     };
   }
   
-  /// 从JSON创建
   factory AngerRecord.fromJson(Map<String, dynamic> json) {
     return AngerRecord(
       id: json['id'] as String,
