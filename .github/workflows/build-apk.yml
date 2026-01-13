@@ -3,8 +3,6 @@ name: 构建Android APK
 on:
   push:
     branches: [ main, master ]
-  pull_request:
-    branches: [ main, master ]
   workflow_dispatch:
 
 jobs:
@@ -25,38 +23,23 @@ jobs:
     - name: 设置Flutter环境
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: '3.16.0'
+        flutter-version: '3.7.12'
         channel: 'stable'
     
     - name: 显示Flutter版本
       run: flutter --version
     
+    - name: 清理缓存
+      run: flutter clean
+    
     - name: 安装依赖
       run: flutter pub get
       
-    - name: 生成Hive适配器代码
-      run: flutter packages pub run build_runner build --delete-conflicting-outputs
-      
-    - name: 构建APK
-      run: flutter build apk --release --split-per-abi
-      
-    - name: 重命名APK文件
-      run: |
-        cd build/app/outputs/flutter-apk
-        mv app-arm64-v8a-release.apk 愤怒管理-v1.0-arm64.apk
-        mv app-armeabi-v7a-release.apk 愤怒管理-v1.0-armeabi.apk
-        mv app-x86_64-release.apk 愤怒管理-v1.0-x86_64.apk
+    - name: 构建APK（不生成Hive代码）
+      run: flutter build apk --release --no-tree-shake-icons
       
     - name: 上传APK文件
       uses: actions/upload-artifact@v4
       with:
-        name: 愤怒管理应用-APK文件
-        path: build/app/outputs/flutter-apk/*.apk
-        
-    - name: 创建Release（可选）
-      if: startsWith(github.ref, 'refs/tags/')
-      uses: softprops/action-gh-release@v1
-      with:
-        files: build/app/outputs/flutter-apk/*.apk
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        name: 愤怒管理应用-APK
+        path: build/app/outputs/flutter-apk/app-release.apk
