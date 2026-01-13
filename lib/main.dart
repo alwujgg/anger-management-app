@@ -28,8 +28,11 @@ void main() async {
   
   // 初始化Hive数据库
   await Hive.initFlutter();
-  Hive.registerAdapter(AngerRecordAdapter());
-  await Hive.openBox<AngerRecord>('anger_records');
+// 不再注册Adapter
+// Hive.registerAdapter(AngerRecordAdapter());
+//await Hive.openBox<AngerRecord>('anger_records');
+  // 改用Box<dynamic>
+await Hive.openBox('anger_records');
   
   // 初始化通知服务（已禁用）
   await NotificationService.initialize();
