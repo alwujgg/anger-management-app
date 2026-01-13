@@ -31,7 +31,7 @@ void main() async {
   Hive.registerAdapter(AngerRecordAdapter());
   await Hive.openBox<AngerRecord>('anger_records');
   
-  // 初始化通知服务
+  // 初始化通知服务（已禁用）
   await NotificationService.initialize();
   
   runApp(const MyApp());
