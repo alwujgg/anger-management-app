@@ -12,6 +12,12 @@
         android:label="愤怒管理"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+
+       <!-- Flutter Embedding V2 -->
+        <meta-data
+            android:name="flutterEmbedding"
+            android:value="2" />
+       
         <activity
             android:name=".MainActivity"
             android:exported="true"
